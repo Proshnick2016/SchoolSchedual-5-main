@@ -2,21 +2,11 @@ import React, { useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, AsyncStorage } from "react-native";
 import { postHttp, parseSchoolWeekPage, formLessonsInfo } from '../components/logInData';
 import homePageStyles from "../styles/homePageStyles";
-import Notification from "../components/Notification";
 
 export default function HomePage({ navigation }) {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [countLoops, setCountLoops] = useState(0);
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            console.log("sdfs")
-            //Notification.schoolSchedualNotification("Урок", "Русский язык")
-            setCountLoops(countLoops + 1);
-        }, 10000);
-    });
 
     const logInAndGetSchedual = async () => {
         const optionsToGetElement =
