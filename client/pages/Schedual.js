@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, AsyncStorage } from "react-native";
 import SchedualRendering from "../components/SchedualRendering";
 import schedualStyles from "../styles/schedualStyles";
 import Notification from "../components/Notification";
@@ -9,8 +9,8 @@ export default function Schedual() {
 
     const [countLessons, setCountLessons] = useState(0); // номер урока
     const [nextLessonHours, setNextLessonHours] = useState(22); //8
-    const [nextLessonMinutes, setNextLessonMinutes] = useState(13); // 0
-    const [nextLesson, setNextLesson] = useState("");
+    const [nextLessonMinutes, setNextLessonMinutes] = useState(57); // 0
+    const [nextLesson, setNextLesson] = useState(""); // ""
 
     async function setNewDataAboutLesson(lessonNumber) {
         const schedual = await AsyncStorage.getItem('Schedual');
@@ -40,13 +40,15 @@ export default function Schedual() {
                 if ((hours + 3) % 24 === nextLessonHours && (minutes === nextLessonMinutes || minutes > nextLessonMinutes)) {
                     // console.log("sdfs") // - тест
                     Notification.schoolSchedualNotification("Следующий урок", nextLesson)
+                    console.log(((hours + 3) % 24 === nextLessonHours && (minutes === nextLessonMinutes || minutes > nextLessonMinutes)))
                     setCountLessons(countLessons + 1);
                     setNewDataAboutLesson(countLessons);// присваивание переменным nextLesson, nextLessonHours и nextLessonMinutes новый значений из локального хранилища
+                    // !трижды отправляется уведомление, затем больше ничего не идёт!
                 }
 
                 setCountLoops(countLoops + 1);
             }
-        }, 2000); // 120000
+        }, 10000); // 120000
     });
 
     return (
